@@ -17,3 +17,6 @@ const fs = require('fs');
 fs.writeFileSync("hello.txt", "new file created");
 
 console.log("->>", __dirname);
+
+const fsw = require('fs').writeFileSync;
+fsw("code.txt", "code file created");
