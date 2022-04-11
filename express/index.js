@@ -13,4 +13,9 @@ app.get('/help', (req, res)=>{
     res.send('Welcome, this is Help page');
 });
 
+app.get('/info', (req, res)=>{
+    
+    res.send(`Welcome to the info page. Search Query: ${req.query.name}`);
+})
+
 app.listen(5000);
