@@ -2,7 +2,7 @@ import express from 'express';
 const app = express();
 
 app.get('', (req, res)=>{
-    res.send('Hello, this is Home Page');
+    res.send('<h1>Hello, this is Home Page</h1> <a href="/about">About Page</a>');
 });
 
 app.get('/about', (req, res)=>{
@@ -10,11 +10,26 @@ app.get('/about', (req, res)=>{
 });
 
 app.get('/help', (req, res)=>{
-    res.send('Welcome, this is Help page');
+    res.send([
+        {
+            name: 'Rajib Hasan',
+            email: 'abc@gmail.com'
+        },
+        {
+            name: 'Rakib Hasan',
+            email: 'efd@gmail.com'
+        }
+    ]);
+});
+
+app.get('/input', (req, res)=>{
+    res.send(`
+    <input type="text" name="'userName" placeholder=${req.query.name} />
+    <button>Submit</button>
+    `);
 });
 
 app.get('/info', (req, res)=>{
-    
     res.send(`Welcome to the info page. Search Query: ${req.query.name}`);
 })
 
