@@ -7,14 +7,14 @@ const __dirname = path.dirname(__filename);
 const filePath = path.join(__dirname, 'public');
 
 const app = express();
-app.use(express.static(filePath));
+// app.use(express.static(filePath));
 
-app.get('', (req, res)=>{
-    res.send('<h1>Hello, this is Home Page</h1> <a href="/about">About Page</a>');
+app.get('', (_, res)=>{
+    res.sendFile(`${filePath}/index.html`);
 });
 
 app.get('/about', (req, res)=>{
-    res.send('Hello, this is about page');
+    res.sendFile(`${filePath}/about.html`);
 });
 
 app.get('/help', (req, res)=>{
@@ -39,6 +39,10 @@ app.get('/input', (req, res)=>{
 
 app.get('/info', (req, res)=>{
     res.send(`Welcome to the info page. Search Query: ${req.query.name}`);
+})
+
+app.get('*', (_, res)=>{
+    res.sendFile(`${filePath}/pageNotFound.html`)
 })
 
 app.listen(5000);
