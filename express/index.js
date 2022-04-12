@@ -9,6 +9,8 @@ const filePath = path.join(__dirname, 'public');
 const app = express();
 // app.use(express.static(filePath));
 
+app.set('view engine', 'ejs');
+
 app.get('', (_, res)=>{
     res.sendFile(`${filePath}/index.html`);
 });
@@ -39,6 +41,14 @@ app.get('/input', (req, res)=>{
 
 app.get('/info', (req, res)=>{
     res.send(`Welcome to the info page. Search Query: ${req.query.name}`);
+});
+
+app.get('/profile', (req, res)=>{
+    const data = {
+        name:'Md. Rajib Hasan',
+        designation: 'Backend Developer'
+    }
+    res.render('profile', {data});
 })
 
 app.get('*', (_, res)=>{
