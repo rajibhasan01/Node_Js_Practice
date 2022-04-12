@@ -46,9 +46,14 @@ app.get('/info', (req, res)=>{
 app.get('/profile', (req, res)=>{
     const data = {
         name:'Md. Rajib Hasan',
-        designation: 'Backend Developer'
+        designation: 'Backend Developer',
+        skills: ['php', 'js', 'c++']
     }
     res.render('profile', {data});
+});
+
+app.get('/login', (_, res)=>{
+    res.render('login');
 })
 
 app.get('*', (_, res)=>{
