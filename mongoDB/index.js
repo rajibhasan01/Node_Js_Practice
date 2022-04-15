@@ -1,16 +1,10 @@
-import { MongoClient } from 'mongodb';
+import { dbConnection } from "./mongodb.js";
 
-const url = "mongodb://0.0.0.0:27017/";
-const client = new MongoClient(url);
-const database = "mongodb-practice";
 
-async function getData(){
-    let result = await client.connect();
-    let db = result.db(database);
-    let collection = db.collection('test');
-    let response = await collection.find({}).toArray();
-    console.log(response);
+const main = async () =>{
+    let data = await dbConnection();
+    data = await data.find().toArray();
+    console.log(data);
 }
 
-console.log('rajib')
-getData();
+main();
