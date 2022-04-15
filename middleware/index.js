@@ -1,5 +1,5 @@
-import e from 'express';
 import express from 'express';
+import { filterReq } from './middleware.js';
 
 const app = express();
 
@@ -25,4 +25,11 @@ app.get('/user',(req, res)=>{
     res.send('Welcome to User Page')
 });
 
+app.get('/profile', filterReq, (req, res)=>{
+    res.send(`Your name is ${req.query.name}`);
+});
+
+app.get('*', (_, res)=>{
+    res.send(`pageNotFound.html`);
+})
 app.listen(5000);
