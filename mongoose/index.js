@@ -1,47 +1,39 @@
-import mongoose from "mongoose";
+import express from "express";
+import './config.js';
+import { product } from "./product.js";
+const app = express();
+app.use(express.urlencoded({ extended : true }));
+app.use(express.json());
 
-mongoose.connect("mongodb://0.0.0.0:27017/e-comm");
-const ProductSchema = new mongoose.Schema({
-  name: String,
-  price: Number,
-  brand: String,
-  category: String,
+
+app.post('/create', async (req, res) =>{
+    let data = new product(req.body);
+    let result = await data.save();
+    console.log(result);
+    res.send(result);
 });
 
-const saveInDB = async () => {
-  const ProductModel = mongoose.model("products", ProductSchema);
-  let data = new ProductModel({
-    name: "IPhone 12 Pro Max",
-    price: "1250000",
-    brand: "Apple",
-    category: "Mobile",
-  });
-  let result = await data.save();
-  console.log(result);
-};
+app.get("/list", async(req, res) =>{
+    let data = await product.find();
+    res.send(data);
+});
 
-const updateInDB = async () => {
-  const Product = mongoose.model("products", ProductSchema);
-  let data = await Product.updateOne(
-    { name: "IPhone 7" },
-    {
-      $set: { price: 700, name: 'IPhone 7 Pro' },
-    }
-  );
-  console.log(data);
-};
+app.delete("/delete/:_id", async(req, res) =>{
+    const id = req.params;
+    let data = await product.deleteOne(id);
+    res.send(data);
+});
+
+app.put("/update/:_id", async(req, res) =>{
+    const id = req.params;
+    let data = await product.updateOne(
+        id,
+        {
+            $set: req.body
+        }
+    );
+    res.send(data);
+});
 
 
-const deleteInDB = async () =>{
-    const Product = mongoose.model('products', ProductSchema);
-    let data = await Product.deleteOne({name: "IPhone 7 Pro"});
-    console.log(data);
-}
-
-const findInDB = async () =>{
-    const Product = mongoose.model('products', ProductSchema);
-    const data = await Product.find({});
-    console.log(data);
-}
-
-findInDB();
+app.listen(5000);
