@@ -1,9 +1,29 @@
-import os from "os";
+import express from "express";
+import EventEmitter from "events";
 
-console.log(os.arch());
-console.log(os.freemem()/(1024*1024*1024));
-console.log(os.totalmem()/(1024*1024*1024));
+const app = express();
+const event = new EventEmitter();
 
-console.log(os.hostname());
-console.log(os.platform());
-console.log(os.userInfo());
+let count = 0;
+
+event.on("countAPI", ()=>{
+    count ++;
+    console.log('event called', count);
+});
+
+app.get('/', (req, res)=>{
+    res.send("api called");
+    event.emit("countAPI");
+});
+
+app.get('/search', (req, res)=>{
+    res.send("Search api called");
+    event.emit("countAPI");
+});
+
+app.get('/update', (req, res)=>{
+    res.send("Update api called");
+    event.emit("countAPI");
+});
+
+app.listen(5000);
